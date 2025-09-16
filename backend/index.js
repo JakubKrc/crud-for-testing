@@ -3,6 +3,8 @@ import mysql from 'mysql2'
 
 const app = express()
 
+app.use(express.json())
+
 const db = mysql.createConnection({
     host:"localhost",
     user:"test_user",
@@ -20,6 +22,16 @@ app.get("/books", (req,res)=>{
         if(err) return res.json(err)
         return res.json(data)
     })
+})
+
+app.post("/books", (req,res)=>{
+  const q = "INSERT INTO books (`name`, `price`) VALUES (?)"
+  const values = [req.body.name, req.body.price]
+
+  db.query(q, [values], (err,data)=>{
+    if(err) return res.json(err)
+    return res.json("Book has been created succesfully.")
+  })
 })
 
 const PORT = 8801;
