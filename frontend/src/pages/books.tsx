@@ -6,6 +6,7 @@ import { createColumnHelper,
     flexRender,
     type ColumnDef,
 } from "@tanstack/react-table";
+import { Link } from "react-router-dom";
 
 
 type Book = {
@@ -53,6 +54,15 @@ const Books = () => {
         fetchAllBooks()
     },[])
 
+    const handleDelete = async (id: number)=>{
+        try{
+            await axios.delete("http://localhost:8801/books/"+id)
+            setBooks(prev => prev.filter(book => book.id !== id));
+        }catch(err){
+                console.log(err)
+        }
+    }
+
     const table = useReactTable({
         data: books,
         columns,
@@ -94,9 +104,11 @@ const Books = () => {
                                     <td key={cell.id}>
                                         {flexRender(cell.column.columnDef.cell, cell.getContext())}
                                     </td>
-                                ))
-
-                                }
+                                ))}
+                                <td>
+                                    <button onClick={()=>handleDelete(row.original.id)}>Delete</button>
+                                    <button><Link to={`/update/${row.original.id}`}>Edit</Link></button>
+                                </td>
                             </tr>
                         ))
                     }

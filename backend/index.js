@@ -26,6 +26,15 @@ app.get("/books", (req,res)=>{
     })
 })
 
+app.get("/books/:id", (req,res)=>{
+    const bookId = req.params.id
+    const q = "SELECT * from books WHERE id = ?"
+    db.query(q, [bookId], (err,data)=>{
+        if(err) return res.json(err)
+        return res.json(data[0])
+    })
+})
+
 app.post("/books", (req,res)=>{
   const q = "INSERT INTO books (`name`, `price`) VALUES (?)"
   const values = [req.body.name, req.body.price]
@@ -33,6 +42,28 @@ app.post("/books", (req,res)=>{
   db.query(q, [values], (err,data)=>{
     if(err) return res.json(err)
     return res.json("Book has been created succesfully.")
+  })
+})
+
+app.put("/books/:id", (req,res)=>{
+  const bookId = req.params.id
+  const q = "UPDATE books SET `name` = ?, `price` = ? WHERE id = ?"
+
+  const values=[req.body.name, req.body.price, bookId]
+
+  db.query(q,values, (err, data)=>{
+    if(err) return res.json(err)
+    return res.json("Book has been deleted succesfully.")
+  })
+})
+
+app.delete("/books/:id", (req,res)=>{
+  const bookId = req.params.id
+  const q = "DELETE FROM books WHERE id=?"
+
+  db.query(q,[bookId], (err, data)=>{
+    if(err) return res.json(err)
+    return res.json("Book has been deleted succesfully.")
   })
 })
 
