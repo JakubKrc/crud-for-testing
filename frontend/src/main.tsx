@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client'
 import './index.css'
 import App from './App.tsx'
 import Books from './pages/books.tsx'
+import Add from './pages/add.tsx'
 import Test1 from './pages/test1.tsx'
 import NotFoundPage from './pages/notFound.tsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
@@ -11,6 +12,7 @@ const router = createBrowserRouter([
   {path:"/",element: <App />},
   {path:"/test1",element: <Test1 />},
   {path:"/books",element: <Books />},
+  {path:"/add",element: <Add />},
   {path:"*", element: <NotFoundPage />}
 ])
 
