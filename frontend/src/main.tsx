@@ -6,6 +6,7 @@ import Add from './pages/add.tsx'
 import Test1 from './pages/test1.tsx'
 import NotFoundPage from './pages/notFound.tsx'
 import { createBrowserRouter, RouterProvider, Navigate } from 'react-router-dom'
+import './App.css'
 
 const router = createBrowserRouter([
   {path:"/",element: <Navigate to="/books" replace />},
