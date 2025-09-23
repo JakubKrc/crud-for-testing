@@ -115,14 +115,6 @@ const Books = () => {
                 </tbody>
             </table>
 
-            <div className="books">
-                {books.map(book=>(
-                    <div className="book" key={book.id}>
-                        <h2>{book.name}</h2>
-                        <span>{book.price}</span>
-                    </div>
-                ))}
-            </div>
         </div>    
     )
 }
