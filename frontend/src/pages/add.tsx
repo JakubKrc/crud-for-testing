@@ -2,6 +2,7 @@ import type { ChangeEvent, MouseEvent } from "react";
 import { useState } from "react"
 import axios from "axios"
 import { useNavigate } from "react-router-dom"
+import { Link } from "react-router-dom";
 
 const Add = () => {
 
@@ -36,6 +37,7 @@ const Add = () => {
                 <input type="number" placeholder="price" onChange={handleChange} name="price"/>  
             </div>
             <button onClick={handleClick}>Add</button>
+            <button><Link to={'/'}>Cancel</Link></button>
         </div>
     )
 }

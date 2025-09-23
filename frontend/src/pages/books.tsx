@@ -115,6 +115,8 @@ const Books = () => {
                 </tbody>
             </table>
 
+            <button><Link to={'/add/'}>Add new</Link></button>
+
         </div>    
     )
 }
