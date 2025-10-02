@@ -11,13 +11,7 @@ import { createColumnHelper,
     getPaginationRowModel,
 } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
-
-
-type Book = {
-  id: number
-  name: string
-  price: number
-}
+import type {Book} from "../types/book.ts"
 
 const columnHelper = createColumnHelper<Book>()
 
