@@ -5,6 +5,10 @@ import { createColumnHelper,
     getCoreRowModel, 
     flexRender,
     type ColumnDef,
+    type SortingState,
+    getSortedRowModel,
+    getFilteredRowModel,
+    getPaginationRowModel,
 } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
 
@@ -63,17 +67,41 @@ const Books = () => {
         }
     }
 
+    const [sorting, setSorting] = useState<SortingState>([])
+    const [globalFilter, setGlobalFilter] = useState("")
+
     const table = useReactTable({
         data: books,
         columns,
+        state: {
+            sorting,
+            globalFilter
+        },
+        initialState: {
+            pagination: {
+                pageSize: 10
+            }
+        },
         getCoreRowModel: getCoreRowModel(),
-    })
 
-    console.log(table.getHeaderGroups())
+        getPaginationRowModel:getPaginationRowModel(),
+
+        onSortingChange: setSorting,
+        getSortedRowModel: getSortedRowModel(),
+
+        onGlobalFilterChange: setGlobalFilter,
+        getFilteredRowModel: getFilteredRowModel()
+    })
 
     return (
         <div>
             <h1>Books</h1>
+
+            <input 
+                value={globalFilter ?? ""}
+                onChange={(e) => setGlobalFilter(e.target.value)}
+                placeholder="Search..."
+            />
 
             <table>
                 <thead>
@@ -82,7 +110,10 @@ const Books = () => {
                             <tr key={headerGroup.id}>
                                 {headerGroup.headers.map((header) => (
                                     <th key={header.id} >
-                                        <div>
+                                        <div 
+                                            style={{ cursor: header.column.getCanSort() ? "pointer" : "default" }}
+                                            onClick= {header.column.getToggleSortingHandler()}
+                                        >
                                             {flexRender(
                                                 header.column.columnDef.header,
                                                 header.getContext()
@@ -114,6 +145,64 @@ const Books = () => {
                     }
                 </tbody>
             </table>
+
+            <div>
+                <span>Items per page</span>
+                <select value={table.getState().pagination.pageSize}
+                    onChange={(e) => {
+                        table.setPageSize(Number(e.target.value))
+                    }}
+                >
+                    {[5, 10, 20, 30].map((pageSize) => (
+                        <option key={pageSize} value={pageSize}>
+                            {pageSize}
+                        </option>
+                    ))}
+                </select>
+
+                <button
+                    onClick={() => table.setPageIndex(0)}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    {"<<"}
+                </button>
+
+                <button
+                    onClick={() => table.previousPage()}
+                    disabled={!table.getCanPreviousPage()}
+                >
+                    {"<"}
+                </button>
+
+                <span>
+                    <input
+                        min={1}
+                        max={table.getPageCount()}
+                        type="number"
+                        value={table.getState().pagination.pageIndex + 1}
+                        onChange={(e) => {
+                            const page = e.target.value ? Number(e.target.value) - 1 : 0
+                            table.setPageIndex(page)
+                        }}
+                    />
+                    <span>of {table.getPageCount()}</span>
+                </span>
+
+                <button
+                    onClick={() => table.nextPage()}
+                    disabled={!table.getCanNextPage()}
+                >
+                    {">"}
+                </button>
+
+                <button
+                    onClick={() => table.setPageIndex(table.getPageCount()-1)}
+                    disabled={!table.getCanNextPage()}
+                >
+                    {">>"}
+                </button>
+
+            </div>
 
             <button><Link to={'/add/'}>Add new</Link></button>
 
