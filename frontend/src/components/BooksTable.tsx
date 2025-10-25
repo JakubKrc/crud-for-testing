@@ -10,7 +10,9 @@ import { createColumnHelper,
     getPaginationRowModel,
 } from "@tanstack/react-table";
 import { Link } from "react-router-dom";
-import type {Book} from "../types/book.ts"
+import type {Book} from "../types/book"
+import styles from "../components/BooksTable.module.css"
+
 
 const columnHelper = createColumnHelper<Book>()
 
@@ -37,7 +39,7 @@ const columns: ColumnDef<Book, any>[] = [
 
 const BooksTable = ({data, onDelete}: {data : Book[], onDelete: (id: number) => void }) => {
 
-const [sorting, setSorting] = useState<SortingState>([])
+    const [sorting, setSorting] = useState<SortingState>([])
     const [globalFilter, setGlobalFilter] = useState("")
 
     const table = useReactTable({
@@ -63,15 +65,19 @@ const [sorting, setSorting] = useState<SortingState>([])
         getFilteredRowModel: getFilteredRowModel()
     })
 
+    const minRows = table.getState().pagination.pageSize
+    const rows = table.getRowModel().rows
+    const dummyRows = Array.from({ length: Math.max(0, minRows - rows.length)})
+
     return (
-        <div>
-            <input 
+        <div className={styles.wrapper}>
+            <input className={styles.search}
                 value={globalFilter ?? ""}
                 onChange={(e) => setGlobalFilter(e.target.value)}
                 placeholder="Search..."
             />
 
-            <table>
+            <table className={styles.table}>
                 <thead>
                     {
                         table.getHeaderGroups().map(headerGroup => (
@@ -89,8 +95,8 @@ const [sorting, setSorting] = useState<SortingState>([])
                                         </div>
                                     </th>
                                 ))
-
                                 }
+                                <th>Functions</th>
                             </tr>
                         ))
                     }
@@ -111,64 +117,73 @@ const [sorting, setSorting] = useState<SortingState>([])
                             </tr>
                         ))
                     }
+                    {dummyRows.map((_, id) => (
+                        <tr key={`dummy-${id}`}>
+                        <td colSpan={columns.length+1}>&nbsp;</td>
+                        </tr>
+                    ))}
                 </tbody>
             </table>
 
-            <div>
-                <span>Items per page</span>
-                <select value={table.getState().pagination.pageSize}
-                    onChange={(e) => {
-                        table.setPageSize(Number(e.target.value))
-                    }}
-                >
-                    {[5, 10, 20, 30].map((pageSize) => (
-                        <option key={pageSize} value={pageSize}>
-                            {pageSize}
-                        </option>
-                    ))}
-                </select>
-
-                <button
-                    onClick={() => table.setPageIndex(0)}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    {"<<"}
-                </button>
-
-                <button
-                    onClick={() => table.previousPage()}
-                    disabled={!table.getCanPreviousPage()}
-                >
-                    {"<"}
-                </button>
-
-                <span>
-                    <input
-                        min={1}
-                        max={table.getPageCount()}
-                        type="number"
-                        value={table.getState().pagination.pageIndex + 1}
+            <div className={styles.footer}>
+                <div className={styles.pagination}>
+                    <span>Items per page</span>
+                    <select value={table.getState().pagination.pageSize}
                         onChange={(e) => {
-                            const page = e.target.value ? Number(e.target.value) - 1 : 0
-                            table.setPageIndex(page)
+                            table.setPageSize(Number(e.target.value))
                         }}
-                    />
-                    <span>of {table.getPageCount()}</span>
-                </span>
+                    >
+                        {[5, 10, 20, 30].map((pageSize) => (
+                            <option key={pageSize} value={pageSize}>
+                                {pageSize}
+                            </option>
+                        ))}
+                    </select>
+                </div>
 
-                <button
-                    onClick={() => table.nextPage()}
-                    disabled={!table.getCanNextPage()}
-                >
-                    {">"}
-                </button>
+                <div>
+                    <button
+                        onClick={() => table.setPageIndex(0)}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {"<<"}
+                    </button>
 
-                <button
-                    onClick={() => table.setPageIndex(table.getPageCount()-1)}
-                    disabled={!table.getCanNextPage()}
-                >
-                    {">>"}
-                </button>
+                    <button
+                        onClick={() => table.previousPage()}
+                        disabled={!table.getCanPreviousPage()}
+                    >
+                        {"<"}
+                    </button>
+
+                    <span>
+                        <input
+                            min={1}
+                            max={table.getPageCount()}
+                            type="number"
+                            value={table.getState().pagination.pageIndex + 1}
+                            onChange={(e) => {
+                                const page = e.target.value ? Number(e.target.value) - 1 : 0
+                                table.setPageIndex(page)
+                            }}
+                        />
+                        <span>of {table.getPageCount()}</span>
+                    </span>
+
+                    <button
+                        onClick={() => table.nextPage()}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {">"}
+                    </button>
+
+                    <button
+                        onClick={() => table.setPageIndex(table.getPageCount()-1)}
+                        disabled={!table.getCanNextPage()}
+                    >
+                        {">>"}
+                    </button>
+                </div>
 
             </div>
         </div>

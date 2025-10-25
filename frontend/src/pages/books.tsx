@@ -1,9 +1,8 @@
 import { useEffect, useState } from "react";
 import axios from "axios"
 import { Link } from "react-router-dom";
-import type {Book} from "../types/book.ts"
-import BooksTable from "../modules/BooksTable.tsx";
-
+import type {Book} from "../types/book"
+import BooksTable from "../components/BooksTable";
 
 const Books = () => {
 
