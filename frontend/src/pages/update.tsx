@@ -16,7 +16,7 @@ const Update = () => {
     useEffect(()=>{
         const fetchBook = async () => {
             try{
-                const res = await axios.get("http://localhost:8801/books/"+id)
+                const res = await axios.get("http://localhost:3000/books/"+id)
                 setBook(res.data)
             }catch(err){
                 console.log(err)
@@ -34,7 +34,7 @@ const Update = () => {
     const handleClick = async (e : MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         try{
-            await axios.put("http://localhost:8801/books/"+id, book)
+            await axios.put("http://localhost:3000/books/"+id, book)
             navigate("/")
         }catch(err){
             console.log(err)

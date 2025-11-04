@@ -20,7 +20,7 @@ const Add = () => {
     const handleClick = async (e : MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         try{
-            await axios.post("http://localhost:8801/books", book)
+            await axios.post("http://localhost:3000/books", book)
             navigate("/")
         }catch(err){
             console.log(err)
@@ -28,7 +28,6 @@ const Add = () => {
 
     }
 
-    console.log(book)
     return (
         <div>
             <div className="form">
