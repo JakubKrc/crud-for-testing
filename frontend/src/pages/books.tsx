@@ -11,7 +11,7 @@ const Books = () => {
     useEffect(()=>{
         const fetchAllBooks = async ()=>{
             try{
-                const res = await axios.get("http://localhost:8801/books")
+                const res = await axios.get("http://localhost:3000/books")
                 setBooks(res.data)
             }catch(err){
                 console.log(err)
@@ -22,7 +22,7 @@ const Books = () => {
 
     const handleDelete = async (id: number)=>{
         try{
-            await axios.delete("http://localhost:8801/books/"+id)
+            await axios.delete("http://localhost:3000/books/"+id)
             setBooks(prev => prev.filter(book => book.id !== id));
         }catch(err){
                 console.log(err)
