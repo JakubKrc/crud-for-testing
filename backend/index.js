@@ -1,8 +1,11 @@
 import express from 'express'
 import { Pool } from 'pg';
 import cors from 'cors'
+import rateLimit from "express-rate-limit"
 
 const app = express();
+
+app.set('trust proxy', 1)
 
 app.use(express.json())
 
@@ -15,6 +18,18 @@ app.use(cors({
     }
   }
 }))
+
+const limiter = rateLimit({
+  windowMs: 5 * 1000,
+  max: 3,
+  message: "Too many requests, please try again later.",
+  standardHeaders: true,
+  legacyHeaders: false,
+})
+
+if (process.env.NODE_ENV === "production") {
+  app.use(limiter);
+}
 
 const pool = new Pool({
   host: process.env.DB_HOST,
