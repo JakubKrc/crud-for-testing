@@ -5,7 +5,16 @@ import cors from 'cors'
 const app = express();
 
 app.use(express.json())
-app.use(cors())
+
+app.use(cors({
+  origin: (origin, callback) => {
+    if (!origin || process.env.ALLOWED_ORIGINS.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  }
+}))
 
 const pool = new Pool({
   host: process.env.DB_HOST,
