@@ -15,8 +15,8 @@ const router = createBrowserRouter([
   {path:"/books",element: <Books />},
   {path:"/add",element: <Add />},
   {path:"/update/:id",element: <Update />},
-  {path:"*", element: <NotFoundPage />}
-])
+  {path:"*", element: <NotFoundPage />},
+], {basename: "/crud-for-testing/"})
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

@@ -40,10 +40,13 @@ services:
     env_file: .env
     ports:
       - "${EXPOSED_PORT}:80"
+    expose:
+      - "80"
     depends_on:
       - backend
     networks:
       - frontend-network
+      - apps_net
 
 volumes:
   postgres_data:
@@ -53,3 +56,6 @@ networks:
     driver: bridge
   backend-network:
     driver: bridge
+  apps_net:
+    apps_net:
+      external: true
