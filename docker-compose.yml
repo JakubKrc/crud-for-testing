@@ -57,5 +57,4 @@ networks:
   backend-network:
     driver: bridge
   apps_net:
-    apps_net:
-      external: true
+    external: true
