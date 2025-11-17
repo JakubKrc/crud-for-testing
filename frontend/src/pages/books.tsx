@@ -17,6 +17,7 @@ const Books = () => {
                 console.log(err)
             }
         }
+        console.log(import.meta.env.VITE_BACKEND_URL)
         fetchAllBooks()
     },[])
 
