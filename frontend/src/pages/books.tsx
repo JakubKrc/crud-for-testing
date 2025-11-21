@@ -7,17 +7,17 @@ import BooksTable from "../components/BooksTable";
 const Books = () => {
 
     const [books,setBooks] = useState<Book[]>([])
-
+    const route = `${import.meta.env.VITE_BACKEND_URL}/books`;
     useEffect(()=>{
         const fetchAllBooks = async ()=>{
             try{
-                const res = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/books`)
+                const res = await axios.get(/*`${import.meta.env.VITE_BACKEND_URL}/books`*/route)
                 setBooks(res.data)
             }catch(err){
                 console.log(err)
             }
         }
-        console.log(import.meta.env.VITE_BACKEND_URL)
+        console.log(route)
         fetchAllBooks()
     },[])
 
