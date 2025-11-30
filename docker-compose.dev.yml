@@ -1,4 +1,8 @@
 services:
+  db:
+    ports:
+      - "${POSTGRES_PORT:-5432}:5432"
+
   backend:
     build:
       context: ./backend
@@ -34,3 +38,7 @@ services:
       - backend
     networks:
       - frontend-network
+
+networks:
+  apps_net:
+    external: false
