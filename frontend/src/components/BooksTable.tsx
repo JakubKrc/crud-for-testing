@@ -51,7 +51,7 @@ const BooksTable = ({data, onDelete}: {data : Book[], onDelete: (id: number) => 
         },
         initialState: {
             pagination: {
-                pageSize: 10
+                pageSize: Number(localStorage.getItem("pageSize")) || 10
             }
         },
         getCoreRowModel: getCoreRowModel(),
@@ -131,6 +131,7 @@ const BooksTable = ({data, onDelete}: {data : Book[], onDelete: (id: number) => 
                     <select value={table.getState().pagination.pageSize}
                         onChange={(e) => {
                             table.setPageSize(Number(e.target.value))
+                            localStorage.setItem("pageSize", e.target.value.toString())
                         }}
                     >
                         {[5, 10, 20, 30].map((pageSize) => (
