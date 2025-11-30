@@ -21,10 +21,9 @@
     width: 100%;
     font-size: 0.9em;
     min-width: 400px;
-    min-height: 400px;
-    text-align: left;
-    border-collapse: collapse;
     table-layout: fixed;
+    border-collapse: collapse;
+    empty-cells: show; 
 }
 
 .table thead tr {
@@ -33,12 +32,20 @@
 }
 
 .table th {
-    padding: 3px;
+    padding: 10px 13px;
 }
 
 .table td {
     padding: 10px 13px;
     border-bottom: 1px solid rgb(82, 74, 72);
+    height: 25px; 
+    vertical-align: middle;
+}
+
+.table td, .table th {
+    white-space: normal;
+    word-break: break-word;
+    padding: 10px 13px;
 }
 
 .table tbody tr:nth-of-type(even) {
@@ -50,4 +57,17 @@
     display: flex;
     justify-content: space-between;
     width: 100%;
+}
+
+@media (max-width: 600px) {
+  .table td {
+    height: auto; /* allow rows to grow with content */
+    padding: 8px 10px;
+    font-size: 0.8em;
+  }
+
+  .table th {
+    font-size: 0.8em;
+    padding: 8px 10px;
+  }
 }
