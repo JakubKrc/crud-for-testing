@@ -10,7 +10,7 @@ A basic CRUD application where I plan to implement automated testing.
 
 ---
 
-## Features
+## 🚀Features
 
 - CRUD operations for the `books` table  
 - Dockerized setup for frontend and backend  
@@ -19,7 +19,7 @@ A basic CRUD application where I plan to implement automated testing.
 
 ---
 
-## Installation & Running Locally
+## 🖥️Installation & Running Locally
 
 1. Clone the repository:  
 2. Install Node.js dependencies in frontend and backend:
@@ -29,18 +29,21 @@ A basic CRUD application where I plan to implement automated testing.
 
     docker compose -f docker-compose.yml -f docker-compose.dev.yml up --build
 
-# Database Initialization
+# 🛢️Database Initialization
 
 When the application is started for the first time, the PostgreSQL database is empty.
 The initial schema is created automatically using the SQL files inside: postgres/init/
 
 
-## Roadmap
+## 🛠️ Roadmap
 
-    Add basic Jest testing
+- add basic Jest testing
+- add authtentification
+- implement backend pagination
+- seed the database with more dummy data
 
-    Add authtentification
+---
 
-    Implement backend pagination
+## 🤖 AI Assistance
 
-    Seed the database with more dummy data
+This project was developed with AI (ChatGPT, Mistral).
