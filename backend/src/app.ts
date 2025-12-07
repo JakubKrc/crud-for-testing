@@ -11,7 +11,8 @@ app.use(express.json())
 
 app.use(cors({
   origin: (origin, callback) => {
-    if (!origin || process.env.ALLOWED_ORIGINS.includes(origin)) {
+    const allowed = process.env.ALLOWED_ORIGINS ?? "";
+    if (!origin || allowed.includes(origin)) {
       callback(null, true);
     } else {
       callback(new Error("Not allowed by CORS"));
@@ -36,7 +37,8 @@ const pool = new Pool({
   user: process.env.POSTGRES_USER,
   password: process.env.POSTGRES_PASSWORD,
   database: process.env.POSTGRES_DB,
-  port: process.env.POSTGRES_PORT || 5432,
+  port: process.env.POSTGRES_PORT ? Number(process.env.POSTGRES_PORT) : 5432
+,
 });
 
 app.get("/", (req, res )=>{
@@ -92,10 +94,8 @@ app.delete("/books/:id", (req,res)=>{
   })
 })
 
-const PORT = 3000;
-app.listen(PORT, () => {
-  console.log(`Server listening on http://localhost:${PORT}`)
-}).on("error", (err) => {
-  console.error("Failed to start server:", err)
-  process.exit(1)
-})
+app.get("/health", (req, res) => {
+  res.json({ status: "ok" });
+});
+
+export default app
